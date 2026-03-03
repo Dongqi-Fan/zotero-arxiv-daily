@@ -18,12 +18,11 @@ jobs:
         env:
           ZOTERO_ID: ${{ secrets.ZOTERO_ID }}
           ZOTERO_KEY: ${{ secrets.ZOTERO_KEY }}
-          SENDER: ${{ secrets.SENDER }}
+          SENDER: ${{ secrets.SENDER }}                  # 如 yourname@gmail.com
           RECEIVER: ${{ secrets.RECEIVER }}
-          SENDER_PASSWORD: ${{ secrets.SENDER_PASSWORD }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}     # 可选，如果想用 LLM
-          OPENAI_API_BASE: ${{ secrets.OPENAI_API_BASE }}   # 可选
-          ARXIV_QUERY: cs.AI+cs.CV+cs.LG                    # ← 旧版关键配置！
-          # 如果有其他如 SMTP_SERVER 等，按旧 README 加
+          SENDER_PASSWORD: ${{ secrets.SENDER_PASSWORD }}  # App Password
+          SMTP_SERVER: ${{ secrets.SMTP_SERVER }}        # smtp.gmail.com
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}            # 现在是 587
+          ARXIV_QUERY: cs.AI+cs.CV+cs.LG
         run: |
-          uv run main.py   # 或 uv run src/zotero_arxiv_daily/main.py，根据实际路径
+          uv run main.py
