@@ -3,7 +3,6 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '0 22 * * *'
-
 jobs:
   calculate-and-send:
     runs-on: ubuntu-latest
@@ -13,10 +12,8 @@ jobs:
         with:
           repository: ${{ vars.REPOSITORY }}
           ref: v0.3.5
-
       - name: Setup uv
         uses: astral-sh/setup-uv@v7
-
       - name: Run script
         env:
           ZOTERO_ID: ${{ secrets.ZOTERO_ID }}
@@ -24,11 +21,9 @@ jobs:
           SENDER: ${{ secrets.SENDER }}
           RECEIVER: ${{ secrets.RECEIVER }}
           SENDER_PASSWORD: ${{ secrets.SENDER_PASSWORD }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          OPENAI_API_BASE: ${{ secrets.OPENAI_API_BASE }}
-          CUSTOM_CONFIG: ${{ vars.CUSTOM_CONFIG }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}     # 可选，如果想用 LLM
+          OPENAI_API_BASE: ${{ secrets.OPENAI_API_BASE }}   # 可选
+          ARXIV_QUERY: cs.AI+cs.CV+cs.LG                    # ← 旧版关键配置！
+          # 如果有其他如 SMTP_SERVER 等，按旧 README 加
         run: |
-          printf "%b\n" "$CUSTOM_CONFIG" > config/custom.yaml
-          echo "Use custom config: "
-          cat config/custom.yaml
-          uv run src/zotero_arxiv_daily/main.py
+          uv run main.py   # 或 uv run src/zotero_arxiv_daily/main.py，根据实际路径
